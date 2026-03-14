@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 
@@ -239,7 +239,7 @@ function GraphBar({
   );
 }
 
-export default function ResultPage() {
+function ResultPageInner() {
   const searchParams = useSearchParams();
 
   const typeName = searchParams.get("typeName") || "깨어나는 관찰자";
@@ -632,5 +632,13 @@ export default function ResultPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ResultPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 40 }}>결과를 불러오는 중...</div>}>
+      <ResultPageInner />
+    </Suspense>
   );
 }

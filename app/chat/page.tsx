@@ -1,15 +1,15 @@
 "use client";
 
 import Link from "next/link";
+import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 
 type Message = {
   role: "user" | "assistant";
   text: string;
 };
 
-export default function ChatPage() {
+function ChatPageInner() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -245,5 +245,13 @@ export default function ChatPage() {
         </div>
       </div>
     </main>
+  );
+}
+
+export default function ChatPage() {
+  return (
+    <Suspense fallback={<div style={{ padding: 40 }}>로딩 중...</div>}>
+      <ChatPageInner />
+    </Suspense>
   );
 }
